@@ -1,15 +1,17 @@
 import java.awt.*;
 import java.awt.event.*;
+
 public class Calculator implements ActionListener,KeyListener{
     String s= "";
+    Boolean opCond=true;
     Calculator()
     {
     Frame f= new Frame("Calculator");
     TextField t1=new TextField("");
     Button b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bp,bs,bm,bd,br,bc,bdc,bpl,bpr;
     
-    b0= new Button("0");
-    b1= new Button("1");
+    b0= new Button("0");                                                           
+    b1= new Button("1");                                                      
     b2= new Button("2");
     b3= new Button("3");
     b4= new Button("4");
@@ -55,90 +57,139 @@ public class Calculator implements ActionListener,KeyListener{
     {
     s=s+"0";
     t1.setText(s);
+    opCond=false;
     }
     });
     b1.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
     s=s+"1";
     t1.setText(s);
+    opCond=false;
     }
     });
     b2.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
     s=s+"2";
     t1.setText(s);
+    opCond=false;
     }
     });
     b3.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
     s=s+"3";
     t1.setText(s);
+    opCond=false;
     }
     });
     b4.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
     s=s+"4";
     t1.setText(s);
+    opCond=false;
     }
     });
     b5.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
     s=s+"5";
     t1.setText(s);
+    opCond=false;
     }
     });
     b6.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
     s=s+"6";
     t1.setText(s);;
+    opCond=false;
     }
     });
     b7.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
     s=s+"7";
     t1.setText(s);
+    opCond=false;
     }
     });
     b8.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
-    s=s+"8";
+        
+        s=s+"8";
     t1.setText(s);
+    opCond=false;
     }
     });
     b9.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
     s=s+"9";
     t1.setText(s);
+    opCond=false;
     }
     });
     bp.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
-    s=s+" + ";
-    t1.setText(s);
+        if(e.getSource() == bp)
+        { 
+            if(!opCond)
+            {
+                s=s+" + ";
+        t1.setText(s);
+        opCond = true;
+            }
+        }
+        
+  
+    
     }
     });
     bs.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
-    s=s+" - ";
-    t1.setText(s);
+   if(e.getSource() == bs)
+        { 
+            if(!opCond)
+            {
+                s=s+" - ";
+        t1.setText(s);
+        opCond = true;
+            }
+        }
     }
     });
     bm.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
-    s=s+" * ";
-    t1.setText(s);
+    if(e.getSource() == bm)
+        { 
+            if(!opCond)
+            {
+                s=s+" * ";
+        t1.setText(s);
+        opCond = true;
+            }
+        }
     }
     });
     bd.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
-    s=s+" / ";
-    t1.setText(s);
+    if(e.getSource() == bd)
+        { 
+            if(!opCond)
+            {
+                s=s+" / ";
+        t1.setText(s);
+        opCond = true;
+            }
+        }
     }
     });
     bdc.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e){
-    s=s+".";
-    t1.setText(s);
+    if(e.getSource() == bp)
+        { 
+            if(!opCond)
+            {
+                s=s+" + ";
+        t1.setText(s);
+        opCond = true;
+            }
+        }
     }
     });
     
@@ -155,9 +206,59 @@ public class Calculator implements ActionListener,KeyListener{
     }
     });
     
+    bpl.addActionListener(new ActionListener(){
+    public void actionPerformed(ActionEvent e){
+    if(e.getSource() == bp)
+        { 
+            if(!opCond)
+            {
+                s=s+" ( ";
+        t1.setText(s);
+        opCond = true;
+            }
+        }
+    }
+    });
+    
+    bpr.addActionListener(new ActionListener(){
+    public void actionPerformed(ActionEvent e){
+   if(e.getSource() == bp)
+        { 
+            if(!opCond)
+            {
+                s=s+" ) ";
+        t1.setText(s);
+        opCond = true;
+            }
+        }
+    }
+    });
+    
     t1.addKeyListener(new KeyAdapter() {
          public void keyPressed(KeyEvent e) {
              
+             if ((e.getKeyChar() >= '0' && e.getKeyChar() <= '9') || e.getKeyChar() == 32 || e.getKeyChar() == 8  )  {
+               t1.setEditable(true);
+               opCond=false;
+               
+            } else if(e.getKeyChar() <= 47 && e.getKeyChar() >=42 )
+            {  
+                if(!opCond)
+                {
+        t1.setEditable(true);            
+        opCond = true;
+        
+            }
+                else{
+                t1.setEditable(false);           
+                }
+               
+               
+            }        
+            
+             else {
+               t1.setEditable(false);  
+        }
              if (e.getKeyCode()==KeyEvent.VK_ENTER) {
                  s=t1.getText();
                  t1.setText(""+EvaluateString.evaluate(s.trim()));
@@ -166,13 +267,6 @@ public class Calculator implements ActionListener,KeyListener{
       });
     
     f.addKeyListener(this);
-    /*
-    b.addActionListener(new ActionListener(){
-    public void actionPerformed(ActionEvent e){
-    t1.setText("");
-    }
-    });
-    */
     
     f.add(t1);
     f.add(b0);
@@ -228,7 +322,6 @@ public class Calculator implements ActionListener,KeyListener{
     @Override
     public void keyReleased(KeyEvent arg0) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
+    }   
 }
+
